@@ -1,0 +1,27 @@
+{
+  "name": "knex-upsert",
+  "version": "0.0.0",
+  "description": "An upsert function for knex",
+  "scripts": {
+    "lint": "eslint --ext js,md .",
+    "test": "ava",
+    "posttest": "npm run lint"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "ava": "^0.21.0",
+    "eslint": "^4.4.1",
+    "eslint-config-concise": "^0.10.0",
+    "eslint-config-concise-ava": "^0.10.0"
+  },
+  "repository": "ratson/knex-upsert",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "*.md",
+    "index.js"
+  ]
+}
