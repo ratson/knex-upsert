@@ -8,6 +8,7 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "ava": "^0.21.0",
