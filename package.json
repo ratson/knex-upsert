@@ -14,7 +14,9 @@
     "ava": "^0.21.0",
     "eslint": "^4.4.1",
     "eslint-config-concise": "^0.10.0",
-    "eslint-config-concise-ava": "^0.10.0"
+    "eslint-config-concise-ava": "^0.10.0",
+    "knex": "^0.13.0",
+    "mock-knex": "^0.3.9"
   },
   "repository": "ratson/knex-upsert",
   "license": "MIT",
