@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "An upsert function for knex.",
   "scripts": {
-    "lint": "eslint --ext js,md .",
+    "lint:js": "eslint --ext js,md .",
+    "lint:package.json": "pjl-cli",
     "test": "ava",
-    "posttest": "npm run lint"
+    "posttest": "run-p lint:*"
   },
   "dependencies": {
     "lodash": "^4.17.4"
@@ -16,7 +17,10 @@
     "eslint-config-concise": "^0.10.0",
     "eslint-config-concise-ava": "^0.10.0",
     "knex": "^0.13.0",
-    "mock-knex": "^0.3.9"
+    "mock-knex": "^0.3.9",
+    "npm-package-json-lint": "^2.7.0",
+    "npm-package-json-lint-config-default": "^1.1.0",
+    "npm-run-all": "^4.0.2"
   },
   "repository": "ratson/knex-upsert",
   "license": "MIT",
@@ -26,5 +30,15 @@
   "files": [
     "*.md",
     "index.js"
-  ]
+  ],
+  "keywords": [
+    "knex",
+    "upsert"
+  ],
+  "npmPackageJsonLintConfig": {
+    "extends": "npm-package-json-lint-config-default",
+    "rules": {
+      "require-keywords": "error"
+    }
+  }
 }
