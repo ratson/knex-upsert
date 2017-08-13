@@ -3,16 +3,19 @@
   "version": "0.0.1",
   "description": "An upsert function for knex.",
   "scripts": {
+    "lint": "run-p lint:*",
+    "lint:bundlesize": "bundlesize",
     "lint:js": "eslint --ext js,md .",
     "lint:package.json": "pjl-cli",
     "test": "ava",
-    "posttest": "run-p lint:*"
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "lodash": "^4.17.4"
   },
   "devDependencies": {
     "ava": "^0.21.0",
+    "bundlesize": "^0.13.2",
     "eslint": "^4.4.1",
     "eslint-config-concise": "^0.10.0",
     "eslint-config-concise-ava": "^0.10.0",
@@ -34,6 +37,12 @@
   "keywords": [
     "knex",
     "upsert"
+  ],
+  "bundlesize": [
+    {
+      "path": "./index.js",
+      "maxSize": "1 Kb"
+    }
   ],
   "npmPackageJsonLintConfig": {
     "extends": "npm-package-json-lint-config-default",
