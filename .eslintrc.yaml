@@ -1,2 +1,10 @@
 extends:
   - concise
+rules:
+  comma-dangle:
+    - error
+    - functions: never
+      arrays: always-multiline
+      objects: only-multiline
+      imports: always-multiline
+      exports: always-multiline

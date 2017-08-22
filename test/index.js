@@ -5,7 +5,6 @@ import test from 'ava'
 
 import upsert from '..'
 
-/* eslint-disable no-param-reassign */
 test.beforeEach(t => {
   const db = knex({
     client: 'sqlite',
@@ -18,7 +17,6 @@ test.beforeEach(t => {
   tracker.install()
   t.context.tracker = tracker
 })
-/* eslint-enable no-param-reassign */
 
 test.afterEach.always(t => {
   const { db, tracker } = t.context
@@ -33,7 +31,7 @@ test.serial(async t => {
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  ("field", "id") values (?, ?) ON CONFLICT (id) DO update  set "field" = ? RETURNING *',
+        'insert into  ("field", "id") values (?, ?) ON CONFLICT (id) DO update  set "field" = ? RETURNING *'
       )
       query.response({ rows: ['updated-object'] })
     } else {
@@ -53,7 +51,7 @@ test.serial('updateIgnore', async t => {
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  ("field", "id", "ignore") values (?, ?, ?) ON CONFLICT (id) DO update  set "field" = ? RETURNING *',
+        'insert into  ("field", "id", "ignore") values (?, ?, ?) ON CONFLICT (id) DO update  set "field" = ? RETURNING *'
       )
       query.response({ rows: ['updated-object'] })
     } else {

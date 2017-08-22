@@ -18,7 +18,7 @@ const upsert = require('knex-upsert')
 
 const db = knex({
   dialect: 'sqlite3',
-  connection: { filename: './data.db' },
+  connection: { filename: './data.db' }
 })
 db.schema.createTable('users', table => {
   table.increments('id')
