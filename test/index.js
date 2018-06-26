@@ -68,3 +68,28 @@ test.serial('updateIgnore', async t => {
   })
   t.is(result, 'updated-object')
 })
+
+test.serial('db.fn.now()', async t => {
+  const { db, tracker } = t.context
+  tracker.on('query', (query, step) => {
+    t.is(step, 1)
+    if (query.method === 'raw') {
+      t.is(
+        query.sql,
+        'insert into  ("id", "updated_at") values (?, CURRENT_TIMESTAMP) ON CONFLICT (id) DO update  set "updated_at" = CURRENT_TIMESTAMP RETURNING *'
+      )
+      query.response({ rows: ['updated-object'] })
+    } else {
+      t.fail(query)
+    }
+  })
+
+  // force circular structure to mimic PostgreSQL's connection object,
+  // which may have circular structure
+  const now = db.fn.now()
+  now.circular = now
+
+  const object = { id: '1', updated_at: now }
+  const result = await upsert({ db, object, key: 'id' })
+  t.is(result, 'updated-object')
+})

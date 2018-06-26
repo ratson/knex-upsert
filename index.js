@@ -9,7 +9,7 @@ module.exports = ({ db, table, object, key, updateIgnore = [] }) => {
   keys.forEach(field =>
     assert(
       _.has(object, field),
-      `Key "${field}" is missing in ${JSON.stringify(object)}`
+      `Key "${field}" is missing.`
     )
   )
 
