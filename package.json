@@ -1,6 +1,6 @@
 {
   "name": "knex-upsert",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An upsert function for knex.",
   "scripts": {
     "lint": "run-p lint:*",
