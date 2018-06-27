@@ -4,13 +4,12 @@ const assert = require('assert')
 
 const _ = require('lodash')
 
-module.exports = ({ db, table, object, key, updateIgnore = [] }) => {
+module.exports = ({
+  db, table, object, key, updateIgnore = []
+}) => {
   const keys = _.isString(key) ? [key] : key
   keys.forEach(field =>
-    assert(
-      _.has(object, field),
-      `Key "${field}" is missing.`
-    )
+    assert(_.has(object, field), `Key "${field}" is missing.`)
   )
 
   const updateFields = _.difference(_.keys(_.omit(object, keys)), updateIgnore)

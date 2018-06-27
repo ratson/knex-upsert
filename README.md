@@ -10,7 +10,7 @@ npm install knex-upsert --save
 
 ## Usage
 
-<!-- eslint-disable strict -->
+<!-- eslint-disable strict,node/no-missing-require -->
 
 ```js
 const knex = require('knex')
