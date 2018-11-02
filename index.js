@@ -14,16 +14,16 @@ module.exports = ({
 
   const updateFields = _.difference(_.keys(_.omit(object, keys)), updateIgnore)
   const insert = db.table(table).insert(object)
-  const keyPlaceholders = _.fill(_.clone(keys), '??')
+  const keyPlaceholders = Array(keys.length).fill('??').join(',')
 
   if (updateFields.length === 0) {
     return db
-      .raw(`? ON CONFLICT (${keyPlaceholders.join(',')}) DO NOTHING RETURNING *`, [insert, ...keys])
+      .raw(`? ON CONFLICT (${keyPlaceholders}) DO NOTHING RETURNING *`, [insert, ...keys])
       .then(result => _.get(result, ['rows', 0]))
   }
 
   const update = db.queryBuilder().update(_.pick(object, updateFields))
   return db
-    .raw(`? ON CONFLICT (${keyPlaceholders.join(',')}) DO ? RETURNING *`, [insert, ...keys, update])
+    .raw(`? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`, [insert, ...keys, update])
     .then(result => _.get(result, ['rows', 0]))
 }
