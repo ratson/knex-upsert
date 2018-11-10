@@ -31,7 +31,7 @@ test.serial(async t => {
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  (`field`, `id`) values (?, ?) ON CONFLICT (id) DO update  set `field` = ? RETURNING *'
+        'insert into  ("field", "id") values (?, ?) ON CONFLICT ("id") DO update  set "field" = ? RETURNING *'
       )
       query.response({ rows: ['updated-object'] })
     } else {
@@ -51,7 +51,7 @@ test.serial('updateIgnore', async t => {
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  (`field`, `id`, `ignore`) values (?, ?, ?) ON CONFLICT (id) DO update  set `field` = ? RETURNING *'
+        'insert into  ("field", "id", "ignore") values (?, ?, ?) ON CONFLICT ("id") DO update  set "field" = ? RETURNING *'
       )
       query.response({ rows: ['updated-object'] })
     } else {
@@ -76,7 +76,7 @@ test.serial('db.fn.now()', async t => {
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  (`id`, `updated_at`) values (?, CURRENT_TIMESTAMP) ON CONFLICT (id) DO update  set `updated_at` = CURRENT_TIMESTAMP RETURNING *'
+        'insert into  ("id", "updated_at") values (?, CURRENT_TIMESTAMP) ON CONFLICT ("id") DO update  set "updated_at" = CURRENT_TIMESTAMP RETURNING *'
       )
       query.response({ rows: ['updated-object'] })
     } else {
