@@ -14,7 +14,7 @@ module.exports = ({
 
   const updateFields = _.difference(_.keys(_.omit(object, keys)), updateIgnore)
   const insert = db.table(table).insert(object)
-  const keyPlaceholders = Array(keys.length).fill('??').join(',')
+  const keyPlaceholders = new Array(keys.length).fill('??').join(',')
 
   if (updateFields.length === 0) {
     return db

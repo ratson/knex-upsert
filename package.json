@@ -11,17 +11,17 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "ava": "^0.25.0",
     "bundlesize": "^0.17.0",
-    "eslint": "^4.9.1",
-    "eslint-config-concise": "^0.26.1",
-    "eslint-config-concise-ava": "^0.23.0",
-    "knex": "^0.14.6",
-    "mock-knex": "^0.4.0",
-    "npm-package-json-lint": "^3.1.0",
+    "eslint": "^5.9.0",
+    "eslint-config-concise": "^0.32.0",
+    "eslint-config-concise-ava": "^0.32.0",
+    "knex": "^0.15.2",
+    "mock-knex": "^0.4.2",
+    "npm-package-json-lint": "^3.4.1",
     "npm-package-json-lint-config-default": "^2.0.0",
     "npm-run-all": "^4.1.3"
   },
