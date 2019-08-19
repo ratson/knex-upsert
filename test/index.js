@@ -44,6 +44,34 @@ test.serial(async t => {
   t.is(result, 'updated-object')
 })
 
+test.serial('upsert many', async t => {
+  const { db, tracker } = t.context
+  tracker.on('query', (query, step) => {
+    t.is(step, 1)
+    if (query.method === 'raw') {
+      t.is(
+        query.sql,
+        'insert into `foo` (`field`, `id`) ' +
+        'select ? as `field`, ? as `id` union all select ? as `field`, ? as `id` ' +
+        'ON CONFLICT (`id`) ' +
+        'DO update  set `field` = excluded.? RETURNING *'
+      )
+      query.response({ rows: ['updated-object'] })
+    } else {
+      t.fail(query)
+    }
+  })
+
+  const object = [{ id: '1', field: 'value' }, { id: '2', field: 'another-value' }]
+  const result = await upsert({
+    db,
+    table: 'foo',
+    object,
+    key: 'id'
+  })
+  t.is(result, 'updated-object')
+})
+
 test.serial('updateIgnore', async t => {
   const { db, tracker } = t.context
   tracker.on('query', (query, step) => {
