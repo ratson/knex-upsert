@@ -8,12 +8,20 @@ module.exports = ({
   db, table, object, key, updateIgnore = []
 }) => {
   const keys = _.isString(key) ? [key] : key
-  keys.forEach(field =>
-    assert(_.has(object, field), `Key "${field}" is missing.`)
+  const objects = Array.isArray(object) ? object : [object]
+  objects.forEach(obj =>
+    keys.forEach(field =>
+      assert(_.has(obj, field), `Key "${field}" is missing.`)
+    )
   )
 
-  const updateFields = _.difference(_.keys(_.omit(object, keys)), updateIgnore)
-  const insert = db.table(table).insert(object)
+  const prototypeObject = objects[0]
+  const updateFields = _.chain(prototypeObject)
+    .omit(keys)
+    .keys()
+    .difference(updateIgnore)
+    .value()
+  const insert = db.table(table).insert(objects)
   const keyPlaceholders = new Array(keys.length).fill('??').join(',')
 
   if (updateFields.length === 0) {
@@ -22,7 +30,14 @@ module.exports = ({
       .then(result => _.get(result, ['rows', 0]))
   }
 
-  const update = db.queryBuilder().update(_.pick(object, updateFields))
+  const update = Array.isArray(object)
+    ? db.queryBuilder().update(
+      _.chain(prototypeObject)
+        .pick(updateFields)
+        .mapValues((v, k) => db.raw('excluded.?', k))
+        .value()
+    )
+    : db.queryBuilder().update(_.pick(object, updateFields))
   return db
     .raw(`? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`, [insert, ...keys, update])
     .then(result => _.get(result, ['rows', 0]))
