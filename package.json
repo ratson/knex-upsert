@@ -8,7 +8,7 @@
     "lint:js": "eslint --ext js,md .",
     "lint:package.json": "npmPkgJsonLint .",
     "test": "ava",
-    "posttest": "npm run lint"
+    "posttest": "run-s lint"
   },
   "dependencies": {
     "lodash": "^4.17.11"
