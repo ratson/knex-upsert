@@ -14,7 +14,7 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
+    "ava": "^3.12.1",
     "bundlesize": "^0.18.0",
     "eslint": "^5.9.0",
     "eslint-config-concise": "^0.32.0",

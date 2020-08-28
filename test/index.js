@@ -1,9 +1,8 @@
-import knex from 'knex'
-import mockDb, { getTracker } from 'mock-knex'
-
-import test from 'ava'
-
-import upsert from '..'
+const knex = require('knex')
+const mockDb = require('mock-knex')
+const { getTracker } = require('mock-knex')
+const test = require('ava')
+const upsert = require('..')
 
 test.beforeEach(t => {
   const db = knex({
@@ -24,7 +23,7 @@ test.afterEach.always(t => {
   mockDb.unmock(db)
 })
 
-test.serial(async t => {
+test.serial('update', async t => {
   const { db, tracker } = t.context
   tracker.on('query', (query, step) => {
     t.is(step, 1)
