@@ -17,7 +17,7 @@ const knex = require('knex')
 const upsert = require('knex-upsert')
 
 const db = knex({
-  dialect: 'sqlite3',
+  dialect: 'sqlite3', //or mysql
   connection: { filename: './data.db' }
 })
 db.schema.createTable('users', table => {
