@@ -15,15 +15,27 @@ module.exports = ({
   const updateFields = _.difference(_.keys(_.omit(object, keys)), updateIgnore)
   const insert = db.table(table).insert(object)
   const keyPlaceholders = new Array(keys.length).fill('??').join(',')
+  const dialect = db.client.config.client;
 
   if (updateFields.length === 0) {
-    return db
+    if(dialect == mysql){
+     return db
+      .raw(`? ON duplicate key (${keyPlaceholders}) DO NOTHING `, [insert, ...keys])
+      .then(result => _.get(result, ['rows', 0]))
+    }
+     return db
       .raw(`? ON CONFLICT (${keyPlaceholders}) DO NOTHING RETURNING *`, [insert, ...keys])
       .then(result => _.get(result, ['rows', 0]))
   }
 
-  const update = db.queryBuilder().update(_.pick(object, updateFields))
+  let update = db.queryBuilder().update(_.pick(object, updateFields))
+  if(dialect == 'mysql'){
+    update = update.toString().replace("set","");
+    return db
+    .raw(insert + ' ON duplicate key ' + update)
+  }
   return db
     .raw(`? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`, [insert, ...keys, update])
     .then(result => _.get(result, ['rows', 0]))
 }
+
