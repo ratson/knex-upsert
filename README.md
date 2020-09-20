@@ -30,5 +30,9 @@ upsert({
   table: 'users',
   object: { id: 1, user_name: 'happy-user' },
   key: 'id',
+}).then(res=>{
+//callback
+}).catch(err=>{
+//error handling
 })
 ```
