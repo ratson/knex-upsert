@@ -1,6 +1,6 @@
 {
   "name": "knex-upsert2",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An upsert function for knex. A fork of ratson/knex-upsert with added support for mysql",
   "scripts": {
     "lint": "run-p lint:*",
