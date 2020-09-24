@@ -1,5 +1,5 @@
 {
-  "name": "@pruthvi-rollick/knex-upsert",
+  "name": "knex-upsert2",
   "version": "0.0.5",
   "description": "An upsert function for knex. A fork of ratson/knex-upsert with added support for mysql",
   "scripts": {
