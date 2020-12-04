@@ -4,7 +4,7 @@
   "description": "An upsert function for knex.",
   "scripts": {
     "lint": "run-p lint:*",
-    "lint:bundlesize": "bundlesize",
+    "lint:size-limit": "size-limit",
     "lint:js": "eslint --ext js,md .",
     "lint:package.json": "npmPkgJsonLint .",
     "test": "ava",
@@ -14,8 +14,8 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.9.1",
     "ava": "^3.12.1",
-    "bundlesize": "^0.18.0",
     "eslint": "^5.9.0",
     "eslint-config-concise": "^0.32.0",
     "eslint-config-concise-ava": "^0.32.0",
@@ -23,7 +23,8 @@
     "mock-knex": "^0.4.9",
     "npm-package-json-lint": "^5.1.0",
     "npm-package-json-lint-config-default": "^3.0.0",
-    "npm-run-all": "^4.1.3"
+    "npm-run-all": "^4.1.3",
+    "size-limit": "^4.9.1"
   },
   "repository": "ratson/knex-upsert",
   "license": "MIT",
@@ -38,10 +39,10 @@
     "knex",
     "upsert"
   ],
-  "bundlesize": [
+  "size-limit": [
     {
-      "path": "./index.js",
-      "maxSize": "1 Kb"
+      "path": "index.js",
+      "limit": "1 KB"
     }
   ]
 }
