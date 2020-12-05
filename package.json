@@ -14,12 +14,16 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@size-limit/preset-small-lib": "^4.9.1",
     "ava": "^3.12.1",
     "eslint": "^5.9.0",
     "eslint-config-concise": "^0.32.0",
     "eslint-config-concise-ava": "^0.32.0",
+    "husky": "^4.3.4",
     "knex": "^0.21.5",
+    "lint-staged": "^10.5.3",
     "mock-knex": "^0.4.9",
     "npm-package-json-lint": "^5.1.0",
     "npm-package-json-lint-config-default": "^3.0.0",
@@ -39,6 +43,22 @@
     "knex",
     "upsert"
   ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,md}": [
+      "eslint --ext js,md --fix"
+    ]
+  },
   "size-limit": [
     {
       "path": "index.js",
