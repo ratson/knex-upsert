@@ -4,7 +4,7 @@ const { getTracker } = require('mock-knex')
 const test = require('ava')
 const upsert = require('..')
 
-test.beforeEach(t => {
+test.beforeEach((t) => {
   const db = knex({
     client: 'sqlite',
     useNullAsDefault: true,
@@ -17,20 +17,20 @@ test.beforeEach(t => {
   t.context.tracker = tracker
 })
 
-test.afterEach.always(t => {
+test.afterEach.always((t) => {
   const { db, tracker } = t.context
   tracker.uninstall()
   mockDb.unmock(db)
 })
 
-test.serial('update', async t => {
+test.serial('update', async (t) => {
   const { db, tracker } = t.context
   tracker.on('query', (query, step) => {
     t.is(step, 1)
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  (`field`, `id`) values (?, ?) ON CONFLICT (`id`) DO update  set `field` = ? RETURNING *'
+        'insert into  (`field`, `id`) values (?, ?) ON CONFLICT (`id`) DO update  set `field` = ? RETURNING *',
       )
       query.response({ rows: ['updated-object'] })
     } else {
@@ -43,14 +43,14 @@ test.serial('update', async t => {
   t.is(result, 'updated-object')
 })
 
-test.serial('updateIgnore', async t => {
+test.serial('updateIgnore', async (t) => {
   const { db, tracker } = t.context
   tracker.on('query', (query, step) => {
     t.is(step, 1)
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  (`field`, `id`, `ignore`) values (?, ?, ?) ON CONFLICT (`id`) DO update  set `field` = ? RETURNING *'
+        'insert into  (`field`, `id`, `ignore`) values (?, ?, ?) ON CONFLICT (`id`) DO update  set `field` = ? RETURNING *',
       )
       query.response({ rows: ['updated-object'] })
     } else {
@@ -68,14 +68,14 @@ test.serial('updateIgnore', async t => {
   t.is(result, 'updated-object')
 })
 
-test.serial('db.fn.now()', async t => {
+test.serial('db.fn.now()', async (t) => {
   const { db, tracker } = t.context
   tracker.on('query', (query, step) => {
     t.is(step, 1)
     if (query.method === 'raw') {
       t.is(
         query.sql,
-        'insert into  (`id`, `updated_at`) values (?, CURRENT_TIMESTAMP) ON CONFLICT (`id`) DO update  set `updated_at` = CURRENT_TIMESTAMP RETURNING *'
+        'insert into  (`id`, `updated_at`) values (?, CURRENT_TIMESTAMP) ON CONFLICT (`id`) DO update  set `updated_at` = CURRENT_TIMESTAMP RETURNING *',
       )
       query.response({ rows: ['updated-object'] })
     } else {
