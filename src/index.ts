@@ -22,40 +22,33 @@ const upsert = async ({
     assert(_.has(object, field), `Key "${field}" is missing.`),
   )
 
-  const updateFields = _.difference(_.keys(_.omit(object, keys)), updateIgnore)
+  const updateFields = _.difference(
+    Object.keys(_.omit(object, keys)),
+    updateIgnore,
+  )
   const insert = db.table(table).insert(object)
   const keyPlaceholders = new Array(keys.length).fill('??').join(',')
   const dialect = db.client.config.client
 
   if (updateFields.length === 0) {
-    if (dialect === 'mysql') {
-      return db
-        .raw(`? ON duplicate key (${keyPlaceholders}) DO NOTHING `, [
-          insert,
-          ...keys,
-        ])
-        .then((result) => _.get(result, ['rows', 0]))
-    }
-    return db
-      .raw(`? ON CONFLICT (${keyPlaceholders}) DO NOTHING RETURNING *`, [
-        insert,
-        ...keys,
-      ])
-      .then((result) => _.get(result, ['rows', 0]))
+    const query =
+      dialect === 'mysql'
+        ? `? ON DUPLICATE KEY (${keyPlaceholders}) DO NOTHING `
+        : `? ON CONFLICT (${keyPlaceholders}) DO NOTHING RETURNING *`
+    const result = await db.raw(query, [insert, ...keys])
+    return _.get(result, ['rows', 0])
   }
 
-  let update = db.queryBuilder().update(_.pick(object, updateFields))
+  const update = db.queryBuilder().update(_.pick(object, updateFields))
   if (dialect === 'mysql') {
     const updateStr = update.toString().replace('set', '')
-    return db.raw(insert + ' ON duplicate key ' + updateStr)
+    return db.raw(insert + ' ON DUPLICATE KEY ' + updateStr)
   }
-  return db
-    .raw(`? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`, [
-      insert,
-      ...keys,
-      update,
-    ])
-    .then((result) => _.get(result, ['rows', 0]))
+  const result = await db.raw(
+    `? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`,
+    [insert, ...keys, update],
+  )
+  return _.get(result, ['rows', 0])
 }
 
 export { upsert }
