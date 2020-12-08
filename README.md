@@ -14,7 +14,7 @@ npm install knex-upsert --save
 
 ```js
 const knex = require('knex')
-const upsert = require('knex-upsert')
+const { upsert } = require('knex-upsert')
 
 const db = knex({
   dialect: 'sqlite3',
