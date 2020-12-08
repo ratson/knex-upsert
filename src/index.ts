@@ -41,8 +41,9 @@ const upsert = async ({
 
   const update = db.queryBuilder().update(_.pick(object, updateFields))
   if (dialect === 'mysql') {
-    const updateStr = update.toString().replace('set', '')
-    return db.raw(insert + ' ON DUPLICATE KEY ' + updateStr)
+    return db.raw(
+      `${insert} ON DUPLICATE KEY ${update.toString().replace('set', '')}`,
+    )
   }
   const result = await db.raw(
     `? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`,

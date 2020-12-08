@@ -1,3 +1,7 @@
 extends:
   - concise
   - plugin:prettier/recommended
+overrides:
+  - files: ["**/*.ts"]
+    extends:
+      - concise-typescript

@@ -28,6 +28,7 @@
     "eslint": "^7.15.0",
     "eslint-config-concise": "^0.40.0",
     "eslint-config-concise-ava": "^0.40.0",
+    "eslint-config-concise-typescript": "^0.40.0",
     "eslint-plugin-prettier": "^3.2.0",
     "husky": "^4.3.5",
     "knex": "^0.21.12",
