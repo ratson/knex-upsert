@@ -2,7 +2,7 @@ const knex = require('knex')
 const mockDb = require('mock-knex')
 const { getTracker } = require('mock-knex')
 const test = require('ava')
-const upsert = require('..')
+const { upsert } = require('..')
 
 test.beforeEach((t) => {
   const db = knex({

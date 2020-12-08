@@ -1,10 +1,22 @@
-'use strict'
+import assert from 'assert'
+import type Knex from 'knex'
+import _ from 'lodash'
 
-const assert = require('assert')
+export interface Options {
+  db: Knex
+  table: string
+  object: any
+  key: string
+  updateIgnore?: string[]
+}
 
-const _ = require('lodash')
-
-module.exports = ({ db, table, object, key, updateIgnore = [] }) => {
+const upsert = async ({
+  db,
+  table,
+  object,
+  key,
+  updateIgnore = [],
+}: Options): Promise<any> => {
   const keys = _.isString(key) ? [key] : key
   keys.forEach((field) =>
     assert(_.has(object, field), `Key "${field}" is missing.`),
@@ -34,8 +46,8 @@ module.exports = ({ db, table, object, key, updateIgnore = [] }) => {
 
   let update = db.queryBuilder().update(_.pick(object, updateFields))
   if (dialect === 'mysql') {
-    update = update.toString().replace('set', '')
-    return db.raw(`${insert} ON duplicate key ${update}`)
+    const updateStr = update.toString().replace('set', '')
+    return db.raw(insert + ' ON duplicate key ' + updateStr)
   }
   return db
     .raw(`? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`, [
@@ -45,3 +57,7 @@ module.exports = ({ db, table, object, key, updateIgnore = [] }) => {
     ])
     .then((result) => _.get(result, ['rows', 0]))
 }
+
+export { upsert }
+
+export default upsert
