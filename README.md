@@ -1,3 +1,7 @@
+# Obsoleted
+
+[Latest Knex supports 'upsert' operation](https://knexjs.org/#Builder-merge)
+
 # knex-upsert
 
 An upsert function for knex.
